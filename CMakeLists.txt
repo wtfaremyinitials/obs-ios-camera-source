@@ -7,13 +7,21 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set (CMAKE_CXX_STANDARD 17)
 
-include(external/FindLibObs.cmake)
+if (WIN32 OR APPLE)
+	include(external/FindLibObs.cmake)
+endif()
 
 find_package(LibObs REQUIRED)
 
-find_package(FFmpeg REQUIRED COMPONENTS avcodec avutil)
+# find_package(FFmpeg REQUIRED COMPONENTS avcodec avutil)
 # find_ffmpeg_library(avcodec)
 # find_ffmpeg_library(avutil)
+
+find_path(AVCODEC_INCLUDE_DIR libavcodec/avcodec.h)
+find_library(AVCODEC_LIBRARY avcodec)
+
+find_path(AVUTIL_INCLUDE_DIR libavutil/avutil.h)
+find_library(AVUTIL_LIBRARY avutil)
 
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	set(ARCH 64)
